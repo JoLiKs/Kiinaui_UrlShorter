@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+class UrlModel(models.Model):
+
+    user_url = models.TextField()
+    short_url = models.TextField()
