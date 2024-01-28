@@ -11,7 +11,7 @@ CHARACTERS = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz234567890'
 def index(request):
     """Создание коротких ссылок"""
     if request.method == 'POST':
-        if '.' not in request.POST['user_url']:
+        if '.' not in request.POST['user_url'] or len(request.POST) < 4:
             return render(request, 'index.html', {'short_url': 'Вы ввели недействительную ссылку'})
         short_url = ''
         data = UrlModel.objects.all()
@@ -44,5 +44,4 @@ def redirection(request, short_url):
             return redirect('https://'+user_url)
         return redirect(user_url)  # перенаправляем пользователя по ссылке
     except Exception as e:
-        print(e)
-        return HttpResponse(e.args)
+        return HttpResponse(e)
