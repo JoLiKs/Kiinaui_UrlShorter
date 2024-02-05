@@ -11,7 +11,7 @@ CHARACTERS = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz234567890'
 def index(request):
     """Создание коротких ссылок"""
     if request.method == 'POST':
-        if '.' not in request.POST['user_url'] or len(request.POST) < 4:
+        if '.' not in request.POST['user_url'] or len(request.POST['user_url']) < 4:
             return render(request, 'index.html', {'short_url': 'Вы ввели недействительную ссылку'})
         short_url = ''
         data = UrlModel.objects.all()
