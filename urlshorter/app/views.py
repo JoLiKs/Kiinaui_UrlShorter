@@ -1,18 +1,23 @@
 import random
-
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-
 from app.models import UrlModel
+
+
+def ads(request): return render(request, 'ads.txt')
+
+def admin(request):
+    urls = UrlModel.objects.all()
+    return render(request, 'admin.html', {'urls': urls})
 
 CHARACTERS = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz234567890'
 @csrf_exempt
 def index(request):
+
     """Создание коротких ссылок"""
     if request.method == 'POST':
-        if '.' not in request.POST['user_url'] or len(request.POST['user_url']) < 4:
-            return render(request, 'index.html', {'short_url': 'Вы ввели недействительную ссылку'})
+        if '.' not in request.POST['user_url'] or len(request.POST['user_url']) < 4 or 'kiin.fun' in request.POST['user_url']:
+            return render(request, 'index.html', {'short_url': 'Неверная ссылка'})
         short_url = ''
         data = UrlModel.objects.all()
         for i in data:
@@ -37,6 +42,7 @@ def get_full_url(short_url):
             return i.user_url
 
 def redirection(request, short_url):
+
     """Перенаправляем пользователя по ссылке"""
     try:
         user_url = get_full_url(short_url)  # получает полный адрес по короткой ссылке
@@ -44,4 +50,4 @@ def redirection(request, short_url):
             return redirect('https://'+user_url)
         return redirect(user_url)  # перенаправляем пользователя по ссылке
     except Exception as e:
-        return HttpResponse(e)
+        return render(request, 'index.html', {'short_url': 'Данный URL не существует!'})
