@@ -19,9 +19,9 @@ def index(request):
         if '.' not in request.POST['user_url'] or len(request.POST['user_url']) < 4 or 'kiin.fun' in request.POST['user_url']:
             return render(request, 'index.html', {'short_url': 'Неверная ссылка'})
         short_url = ''
-        data = UrlModel.objects.all()
+        data = UrlModel.objects.all() #получаем все ссылки из базы данных
         for i in data:
-            if i.user_url == request.POST['user_url']:
+            if i.user_url == request.POST['user_url']:  #проверяем есть ли такая ссылка в базе данных
                 short_url = 'Эта ссылка уже была сокращена!'
                 return render(request, 'index.html', {'short_url': short_url})
 
