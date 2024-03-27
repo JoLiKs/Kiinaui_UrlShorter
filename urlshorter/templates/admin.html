@@ -7,22 +7,18 @@
 </head>
 <body style="height: 90vh; background-color: cadetblue" class="d-flex justify-content-center align-items-center">
 <style>
-    
     th,td {
-
         background-color: darkgray;
         padding: 1rem;
         border-style: double;
         border-width: 3px 3px 3px 3px;
     }
 </style>
-
 <table>
 <tr><th>Краткая ссылка</th><th>Ссылка пользователя</th></tr>
 {% for i in urls %}
 <tr><td>{{ i.short_url }}</td><td>{{ i.user_url }}</td></tr>
 {% endfor %}
 </table>
-
 </body>
 </html>
